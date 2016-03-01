@@ -1,0 +1,30 @@
+{
+  "name": "real_time",
+  "version": "1.0.0",
+  "description": "A real-time polling app",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/patwey/real_time.git"
+  },
+  "keywords": [
+    "express",
+    "node",
+    "websockets"
+  ],
+  "author": "Pat Wey",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/patwey/real_time/issues"
+  },
+  "homepage": "https://github.com/patwey/real_time#readme",
+  "dependencies": {
+    "express": "^4.13.4"
+  },
+  "devDependencies": {
+    "mocha": "^2.4.5"
+  }
+}
