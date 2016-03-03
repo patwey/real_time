@@ -3,15 +3,15 @@ const express = require('express');
 const app = express();
 const path = require('path');
 
-const generateId = require('./lib/generate-id');
 const bodyParser = require('body-parser');
+const sanitizePollData = require('./lib/sanitize-poll-data');
+var Poll = require('./lib/poll')
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static('public'));
 
 app.set('port', process.env.PORT || 3000);
 app.set('view engine', 'jade');
-
-app.use(express.static('public'));
 
 app.locals.title = 'Real Time';
 app.locals.polls = {};
@@ -25,36 +25,23 @@ app.get('/new', (request, response) => {
 });
 
 app.post('/new', (request, response) => {
-  var poll = { id: '', title: '', options: [] }
-  var id = generateId();
+  poll = new Poll(sanitizePollData(request.body));
 
-  poll.id = id;
-  poll.title = request.body.title;
+  app.locals.polls[poll.id] = poll
 
-  if (typeof request.body.options === "string") {
-    poll.options.push(request.body.options);
-  } else {
-    for (option in request.body.options) {
-      poll.option.push(option)
-    }
-  }
-
-  app.locals.polls[id] = poll
-
-  response.redirect('/admin/polls/' + id);
+  response.redirect('/admin/polls/' + poll.id);
 });
 
 app.get('/admin/polls/:id', (request, response) => {
-  var pollId = request.params.id;
-  var poll = app.locals.polls[pollId];
+  var poll = app.locals.polls[request.params.id];
 
-  response.render('admin', { poll: poll, id: pollId })
+  response.render('admin', { poll: poll })
 });
 
 app.get('/polls/:id', (request, response) => {
   var poll = app.locals.polls[request.params.id];
 
-  response.render('poll', { poll: poll});
+  response.render('poll', { poll: poll });
 });
 
 var port = process.env.PORT || 3000;
