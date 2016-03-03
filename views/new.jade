@@ -1,0 +1,27 @@
+doctype html
+html(lang='en')
+  head
+    title= title
+  body
+    div(id='poll-form')
+      h1 New Poll
+      
+      form(method="post")
+        div.title
+            label Title
+            input(type="text", name="title")
+        div(id="options")
+            label Option: 
+            input.poll-option(type="text", name="options")
+        
+        
+        br
+        input(type="submit", value="Create Poll")
+    
+      br
+      button(id='add-option') Add Option
+    br
+    a(href='/') Go Back
+    
+    script(src='/socket.io/socket.io.js')
+    script(src='./scripts/new.js')

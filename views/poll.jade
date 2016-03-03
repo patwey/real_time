@@ -1,0 +1,11 @@
+doctype html
+html(lang='en')
+  head
+    title= title
+  body
+    h1= poll.title
+    div.options
+      each option in poll.options
+        button.option= option
+    
+    script(src='/socket.io/socket.io.js')
