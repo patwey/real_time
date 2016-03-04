@@ -14,6 +14,7 @@ app.set('port', process.env.PORT || 3000);
 app.set('view engine', 'jade');
 
 app.locals.title = 'Real Time';
+app.locals.root = 'localhost:3000'
 app.locals.polls = {};
 app.locals.votes = {};
 
@@ -35,8 +36,11 @@ app.post('/new', (request, response) => {
 
 app.get('/admin/polls/:id', (request, response) => {
   var poll = app.locals.polls[request.params.id];
+  console.log(request);
+  var link = { fullPath:  app.locals.root + '/polls/' + poll.id,
+               localPath: '/polls/' + poll.id };
 
-  response.render('admin', { poll: poll })
+  response.render('admin', { poll: poll, link: link })
 });
 
 app.get('/polls/:id', (request, response) => {
@@ -57,9 +61,9 @@ const io = socketIo(server);
 
 io.on('connection', function(socket) {
   socket.on('message', function (channel, message) {
-    poll = new Poll(app.locals.polls[channel]);
     app.locals.votes[socket.id] = message;
 
+    poll = new Poll(app.locals.polls[channel]);
     poll = poll.update(app.locals.votes);
 
     io.sockets.emit('voteCounted', poll);

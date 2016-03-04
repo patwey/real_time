@@ -14,5 +14,6 @@ socket.on('voteCounted', function (poll) {
   var options = poll.options;
   for (var i = 0; i < options.length; i++) {
     document.getElementById(options[i]).innerText = poll.voteCount[options[i]];
+    document.getElementById(options[i] + '-percent').innerText = poll.percentages[options[i]];
   };
 });
