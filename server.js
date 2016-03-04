@@ -21,7 +21,7 @@ if (app.get('port') === 3000) {
   app.locals.root = 'real-time-patwey.herokuapp.com';
 }
 
-app.locals.polls = {};
+app.locals.polls = {};  
 app.locals.votes = {};
 
 app.get('/', (request, response) => {
