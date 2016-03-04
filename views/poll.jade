@@ -1,14 +1,17 @@
 doctype html
 html(lang='en')
   head
-    title= title
+    title= "Poll: " + poll.title
   body
-    h1= poll.title
+    h1= "Poll: " + poll.title
     div.options
-      each option in poll.options
-        button.option(data-id=poll.id)= option
-        br
-    
+      ul
+        each option in poll.options
+          li
+            span= option + " "
+            button.option(data-id=poll.id) Vote
+          br
+  
     script(src='/socket.io/socket.io.js')
     script(src='/scripts/client.js')
     

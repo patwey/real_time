@@ -1,22 +1,27 @@
 doctype html
 html(lang='en')
   head
-    title= title
+    title= 'Results for: ' + poll.title
   body
-    h1= 'Results for ' + poll.title
+    h1= 'Results for: ' + poll.title
     
     div.results
-      each option in poll.options
-        label= option + ": "
-        span(id=option + '-percent')= poll.percentages[option]
-        span='% ('
-        span(id=option)= poll.voteCount[option]
-        span=' votes)'
-        br
+      ul
+        each option in poll.options
+          li
+            label= option + ": "
+            span(id=option + '-percent')= poll.percentages[option]
+            span='% ('
+            span(id=option)= poll.voteCount[option]
+            span=' votes)'
+          br
     
-    br
     span Voting Link: 
       a(href=link.localPath)= link.fullPath
-      
+    
+    br
+    br
+    button(id='close-poll') Close Poll
+    
     script(src='/socket.io/socket.io.js')
     script(src='/scripts/client.js')
