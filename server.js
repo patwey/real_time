@@ -36,7 +36,7 @@ app.post('/new', (request, response) => {
 
 app.get('/admin/polls/:id', (request, response) => {
   var poll = app.locals.polls[request.params.id];
-  console.log(request);
+  
   var link = { fullPath:  app.locals.root + '/polls/' + poll.id,
                localPath: '/polls/' + poll.id };
 

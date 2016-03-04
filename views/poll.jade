@@ -9,7 +9,7 @@ html(lang='en')
         each option in poll.options
           li
             span= option + " "
-            button.option(data-id=poll.id) Vote
+            button.option-btn(data-id=poll.id, data-vote=option) Vote
           br
   
     script(src='/socket.io/socket.io.js')

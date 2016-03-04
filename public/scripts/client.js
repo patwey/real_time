@@ -1,12 +1,12 @@
 console.log('using client.js!');
 var socket = io();
 
-var pollOptionBtns = document.getElementsByClassName('option');
+var pollOptionBtns = document.getElementsByClassName('option-btn');
 
 for (var i = 0; i < pollOptionBtns.length; i++) {
   var button = pollOptionBtns[i];
   button.addEventListener('click', function() {
-    socket.send(this.getAttribute('data-id'), this.textContent)
+    socket.send(this.getAttribute('data-id'), this.getAttribute('data-vote'))
   });
 };
 
