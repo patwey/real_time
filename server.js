@@ -36,7 +36,7 @@ app.post('/new', (request, response) => {
 
 app.get('/admin/polls/:id', (request, response) => {
   var poll = app.locals.polls[request.params.id];
-  
+
   var link = { fullPath:  app.locals.root + '/polls/' + poll.id,
                localPath: '/polls/' + poll.id };
 
@@ -61,12 +61,22 @@ const io = socketIo(server);
 
 io.on('connection', function(socket) {
   socket.on('message', function (channel, message) {
-    app.locals.votes[socket.id] = message;
+    if (channel === 'voteCast') {
+      app.locals.votes[socket.id] = message.vote;
+      poll = app.locals.polls[message.pollId]
+      console.log(poll.isOpen);
 
-    poll = new Poll(app.locals.polls[channel]);
-    poll = poll.update(app.locals.votes);
+      if (poll.status == "open") {
+        poll = new Poll(app.locals.polls[message.pollId]);
+        poll = poll.update(app.locals.votes);
+        io.sockets.emit('voteCounted', poll);
+      }
+    }
 
-    io.sockets.emit('voteCounted', poll);
+    if (channel === 'closePoll') {
+      app.locals.polls[message.pollId].status = "closed";
+      io.sockets.emit('pollClosed', message.pollId);
+    }
   });
 });
 

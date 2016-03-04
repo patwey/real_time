@@ -4,6 +4,11 @@ html(lang='en')
     title= "Poll: " + poll.title
   body
     h1= "Poll: " + poll.title
+    div.status
+      span= "Poll is currently "
+      strong
+        span(id=poll.id + '-poll-status')= poll.status
+    
     div.options
       ul
         each option in poll.options
