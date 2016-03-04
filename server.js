@@ -14,7 +14,13 @@ app.set('port', process.env.PORT || 3000);
 app.set('view engine', 'jade');
 
 app.locals.title = 'Real Time';
-app.locals.root = 'localhost:3000'
+
+if (app.get('port') === 3000) {
+  app.locals.root = 'localhost:3000';
+} else {
+  app.locals.root = 'real-time-patwey.herokuapp.com';
+}
+
 app.locals.polls = {};
 app.locals.votes = {};
 
