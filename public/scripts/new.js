@@ -14,7 +14,7 @@ addOptionBtn.addEventListener('click', function () {
   var optionInput = document.createElement('input');
   optionInput.type = "text";
   optionInput.name = "options";
-  optionInput.className = "poll-option";
+  optionInput.className = "form-control poll-option";
 
   optionsDiv.appendChild(optionInput);
 });

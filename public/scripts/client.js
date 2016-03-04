@@ -1,4 +1,3 @@
-console.log('using client.js!');
 var socket = io();
 
 var pollOptionBtns = document.getElementsByClassName('option-btn');

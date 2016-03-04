@@ -2,25 +2,29 @@ doctype html
 html(lang='en')
   head
     title= title
+    link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css", integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7", crossorigin="anonymous")
   body
-    div(id='poll-form')
-      h1 New Poll
-      
-      form(method="post")
-        div.title
-            label Title
-            input(type="text", name="title")
-        div(id="options")
-            label Option: 
-            input.poll-option(type="text", name="options")
-        
-        
-        br
-        input(type="submit", value="Create Poll")
-    
-      br
-      button(id='add-option') Add Option
-    br
-    a(href='/') Go Back
-    
-    script(src='/scripts/new.js')
+    div.container
+      div.row
+        div.col-md-6.col-md-offset-3
+          h1 New Poll:
+          div.jumbotron(id='poll-form')  
+            form(method="post")
+              div.form-group.title
+                  label Title
+                  input.form-control(type="text", name="title")
+              div.form-group(id="options")
+                  label Option: 
+                  input.form-control.poll-option(type="text", name="options")
+              
+              
+              br
+              input.btn.btn-success(type="submit", value="Create Poll")
+          
+            br
+            button.btn.btn-default(id='add-option') Add Option
+          div.text-center
+            h3
+              a(href='/') Go Back
+          
+        script(src='/scripts/new.js')

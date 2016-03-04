@@ -2,26 +2,36 @@ doctype html
 html(lang='en')
   head
     title= 'Results for: ' + poll.title
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css', integrity='sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7', crossorigin='anonymous')
+
   body
-    h1= 'Results for: ' + poll.title
-    
-    div.results
-      ul
-        each option in poll.options
-          li
-            label= option + ": "
-            span(id=option + '-percent')= poll.percentages[option]
-            span='% ('
-            span(id=option)= poll.voteCount[option]
-            span=' votes)'
-          br
-    
-    span Voting Link: 
-      a(href=link.localPath)= link.fullPath
-    
-    br
-    br
-    button(id='close-poll', data-id=poll.id) Close Poll
-    
+    div.container
+      div.row
+        div.col-md-6.col-md-offset-3
+          h1.text-center= poll.title
+          div.jumbotron
+            h2 Results: 
+            
+            div.results
+              ul.list-group
+                each option in poll.options
+                  li.list-group-item
+                    label= option
+                    span= ': '
+                    span(id=option + '-percent')= poll.percentages[option]
+                    span= '%'
+                    div.pull-right
+                      span='('
+                      span(id=option)= poll.voteCount[option]
+                      span=' votes)'
+                  br
+            
+            h3 Voting Link: 
+            a(href=link.localPath)= link.fullPath
+            
+            br
+            br
+            button.btn.btn-default(id='close-poll', data-id=poll.id) Close Poll
+        
     script(src='/socket.io/socket.io.js')
     script(src='/scripts/client.js')

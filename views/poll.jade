@@ -2,20 +2,27 @@ doctype html
 html(lang='en')
   head
     title= "Poll: " + poll.title
+    link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css", integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7", crossorigin="anonymous")
   body
-    h1= "Poll: " + poll.title
-    div.status
-      span= "Poll is currently "
-      strong
-        span(id=poll.id + '-poll-status')= poll.status
-    
-    div.options
-      ul
-        each option in poll.options
-          li
-            span= option + " "
-            button.option-btn(data-id=poll.id, data-vote=option) Vote
-          br
+    div.container
+      div.row
+        div.col-md-6.col-md-offset-3
+          h1= poll.title
+            small
+              span= " (currently "
+              strong(id=poll.id + '-poll-status')= poll.status
+              span )
+              
+          div.jumbotron      
+            div.options
+              h2 Options:
+              ul.list-group
+                each option in poll.options
+                  li.list-group-item
+                    span= option
+                    button.option-btn.btn.btn-success.btn-xs.pull-right(data-id=poll.id, data-vote=option) Vote
+                  br
+      
   
     script(src='/socket.io/socket.io.js')
     script(src='/scripts/client.js')

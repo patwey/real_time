@@ -64,7 +64,6 @@ io.on('connection', function(socket) {
     if (channel === 'voteCast') {
       app.locals.votes[socket.id] = message.vote;
       poll = app.locals.polls[message.pollId]
-      console.log(poll.isOpen);
 
       if (poll.status == "open") {
         poll = new Poll(app.locals.polls[message.pollId]);
