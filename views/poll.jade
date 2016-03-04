@@ -5,7 +5,7 @@ html(lang='en')
   body
     h1= poll.title
     div.options
-      each option in Object.keys(poll.options)
+      each option in poll.options
         button.option(data-id=poll.id)= option
         br
     

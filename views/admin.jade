@@ -6,9 +6,9 @@ html(lang='en')
     h1= 'Results for ' + poll.title
     
     div.results
-      each option in Object.keys(poll.options)
+      each option in poll.options
         label= option + ": "
-        span(id=option)= poll.options[option]
+        span(id=option)= poll.voteCount[option]
         br
     
     br

@@ -15,6 +15,7 @@ app.set('view engine', 'jade');
 
 app.locals.title = 'Real Time';
 app.locals.polls = {};
+app.locals.votes = {};
 
 app.get('/', (request, response) => {
   response.render('index');
@@ -57,8 +58,9 @@ const io = socketIo(server);
 io.on('connection', function(socket) {
   socket.on('message', function (channel, message) {
     poll = new Poll(app.locals.polls[channel]);
+    app.locals.votes[socket.id] = message;
 
-    poll = poll.update(message);
+    poll = poll.update(app.locals.votes);
 
     io.sockets.emit('voteCounted', poll);
   });

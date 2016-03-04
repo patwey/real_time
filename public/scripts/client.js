@@ -11,9 +11,8 @@ for (var i = 0; i < pollOptionBtns.length; i++) {
 };
 
 socket.on('voteCounted', function (poll) {
-  var options = Object.keys(poll.options);
+  var options = poll.options;
   for (var i = 0; i < options.length; i++) {
-    var option = options[i];
-    document.getElementById(option).innerText = poll.options[option];
+    document.getElementById(options[i]).innerText = poll.voteCount[options[i]];
   };
 });
