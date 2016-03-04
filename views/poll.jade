@@ -5,8 +5,10 @@ html(lang='en')
   body
     h1= poll.title
     div.options
-      each option in poll.options
-        button.option= option
+      each option in Object.keys(poll.options)
+        button.option(data-id=poll.id)= option
         br
     
     script(src='/socket.io/socket.io.js')
+    script(src='/scripts/client.js')
+    

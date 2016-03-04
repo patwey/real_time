@@ -55,7 +55,13 @@ const socketIo = require('socket.io');
 const io = socketIo(server);
 
 io.on('connection', function(socket) {
+  socket.on('message', function (channel, message) {
+    poll = new Poll(app.locals.polls[channel]);
 
+    poll = poll.update(message);
+
+    io.sockets.emit('voteCounted', poll);
+  });
 });
 
 module.exports = app;

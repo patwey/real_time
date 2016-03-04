@@ -4,5 +4,16 @@ html(lang='en')
     title= title
   body
     h1= 'Results for ' + poll.title
+    
+    div.results
+      each option in Object.keys(poll.options)
+        label= option + ": "
+        span(id=option)= poll.options[option]
+        br
+    
+    br
     span Voting Link: 
       a(href='/polls/' + poll.id)= '/polls/' + poll.id
+      
+    script(src='/socket.io/socket.io.js')
+    script(src='/scripts/client.js')
