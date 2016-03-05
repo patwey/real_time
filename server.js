@@ -21,7 +21,7 @@ if (app.get('port') === 3000) {
   app.locals.root = 'real-time-patwey.herokuapp.com';
 }
 
-app.locals.polls = {};  
+app.locals.polls = {};
 app.locals.votes = {};
 
 app.get('/', (request, response) => {
@@ -51,7 +51,7 @@ app.get('/admin/polls/:id', (request, response) => {
 
 app.get('/polls/:id', (request, response) => {
   var poll = app.locals.polls[request.params.id];
-
+  
   response.render('poll', { poll: poll });
 });
 
@@ -68,12 +68,15 @@ const io = socketIo(server);
 io.on('connection', function(socket) {
   socket.on('message', function (channel, message) {
     if (channel === 'voteCast') {
-      app.locals.votes[socket.id] = message.vote;
+      app.locals.votes[message.pollId] = app.locals.votes[message.pollId] || {};
+      app.locals.votes[message.pollId][socket.id] = message.vote;
       poll = app.locals.polls[message.pollId]
 
       if (poll.status == "open") {
         poll = new Poll(app.locals.polls[message.pollId]);
-        poll = poll.update(app.locals.votes);
+        poll = poll.update(app.locals.votes[message.pollId]);
+        app.locals.polls[message.pollId] = poll;
+
         io.sockets.emit('voteCounted', poll);
       }
     }
@@ -81,6 +84,11 @@ io.on('connection', function(socket) {
     if (channel === 'closePoll') {
       app.locals.polls[message.pollId].status = "closed";
       io.sockets.emit('pollClosed', message.pollId);
+    }
+
+    if (channel === 'shareResults') {
+      app.locals.polls[message.pollId].resultsVisibility = 'visible';
+      io.sockets.emit('resultsShared', message.pollId);
     }
   });
 });

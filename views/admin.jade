@@ -31,7 +31,11 @@ html(lang='en')
             
             br
             br
-            button.btn.btn-default(id='close-poll', data-id=poll.id) Close Poll
+            button.btn.btn-default(id='share-results', data-id=poll.id) Share Results
+            span(id=poll.id +'-share-results-status')
+            br
+            br
+            button.btn.btn-danger(id='close-poll', data-id=poll.id) Close Poll
         
     script(src='/socket.io/socket.io.js')
     script(src='/scripts/client.js')

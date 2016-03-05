@@ -1,15 +1,16 @@
 doctype html
 html(lang='en')
   head
-    title= "Poll: " + poll.title
-    link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css", integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7", crossorigin="anonymous")
+    title= 'Poll: ' + poll.title
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css', integrity='sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7', crossorigin='anonymous')
+    link(rel='stylesheet', href='/stylesheets/poll.css')
   body
     div.container
       div.row
         div.col-md-6.col-md-offset-3
           h1= poll.title
             small
-              span= " (currently "
+              span= ' (currently '
               strong(id=poll.id + '-poll-status')= poll.status
               span )
               
@@ -22,6 +23,21 @@ html(lang='en')
                     span= option
                     button.option-btn.btn.btn-success.btn-xs.pull-right(data-id=poll.id, data-vote=option) Vote
                   br
+      
+      div.row
+        div.col-md-6.col-md-offset-3
+          ul(class='list-group ' + poll.resultsVisibility, id=poll.id + '-results')
+            each option in poll.options
+              li.list-group-item
+                label= option
+                span= ': '
+                span(id=option + '-percent')= poll.percentages[option]
+                span= '%'
+                div.pull-right
+                  span='('
+                  span(id=option)= poll.voteCount[option]
+                  span=' votes)'
+              br
       
   
     script(src='/socket.io/socket.io.js')
