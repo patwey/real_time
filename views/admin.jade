@@ -3,15 +3,15 @@ html(lang='en')
   head
     title= 'Results for: ' + poll.title
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css', integrity='sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7', crossorigin='anonymous')
-
+    link(rel='stylesheet', href='/stylesheets/admin.css')
   body
     div.container
       div.row
         div.col-md-6.col-md-offset-3
           h1.text-center= poll.title
+          
           div.jumbotron
             h2 Results: 
-            
             div.results
               ul.list-group
                 each option in poll.options
@@ -33,9 +33,24 @@ html(lang='en')
             br
             button.btn.btn-default(id='share-results', data-id=poll.id) Share Results
             span(id=poll.id +'-share-results-status')
+            
             br
             br
-            button.btn.btn-danger(id='close-poll', data-id=poll.id) Close Poll
-        
+            h3 Close The Poll:
+            button.btn.btn-danger(id='close-poll', data-id=poll.id) Close Poll Now
+            
+            br
+            br
+            div.row
+              div.col-md-6
+                button.btn.btn-warning(id='schedule-close', data-id=poll.id) Schedule Poll Close
+              div.col-md-6
+                select.form-control(id='minutes-till-close')
+                  option(value='15') In 15 Minutes
+                  option(value='30') In 30 Minutes
+                  option(value='45') In 45 Minutes
+                  option(value='60') In 60 Minutes
+            p.pull-right(id=poll.id + '-schedule-close-status')
+            
     script(src='/socket.io/socket.io.js')
     script(src='/scripts/client.js')

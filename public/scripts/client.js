@@ -28,6 +28,15 @@ if (shareResultsBtn) {
   });
 }
 
+var scheduleCloseBtn = document.getElementById('schedule-close');
+
+if (scheduleCloseBtn) {
+  scheduleCloseBtn.addEventListener('click', function() {
+    var minTillClose = document.getElementById('minutes-till-close').value
+    socket.send('scheduleClose', { pollId: this.getAttribute('data-id'), minTillClose: minTillClose });
+  });
+}
+
 socket.on('voteCounted', function (poll) {
   var options = poll.options;
   for (var i = 0; i < options.length; i++) {
@@ -52,5 +61,13 @@ socket.on('resultsShared', function (pollId) {
   if (pollShareResultsStatusSpan) {
     pollShareResultsStatusSpan.innerText = ' Results Shared!';
     shareResultsBtn.className += 'hidden';
+  }
+});
+
+socket.on('closeScheduled', function (pollId) {
+  var scheduleCloseStatus = document.getElementById(pollId + '-schedule-close-status');
+
+  if (scheduleCloseStatus) {
+    scheduleCloseStatus.innerText = 'Schedule Set!';
   }
 });

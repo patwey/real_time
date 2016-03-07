@@ -4,6 +4,7 @@ const app = express();
 const path = require('path');
 
 const bodyParser = require('body-parser');
+const schedule = require('node-schedule');
 const sanitizePollData = require('./lib/sanitize-poll-data');
 var Poll = require('./lib/poll')
 
@@ -51,7 +52,7 @@ app.get('/admin/polls/:id', (request, response) => {
 
 app.get('/polls/:id', (request, response) => {
   var poll = app.locals.polls[request.params.id];
-  
+
   response.render('poll', { poll: poll });
 });
 
@@ -89,6 +90,18 @@ io.on('connection', function(socket) {
     if (channel === 'shareResults') {
       app.locals.polls[message.pollId].resultsVisibility = 'visible';
       io.sockets.emit('resultsShared', message.pollId);
+    }
+
+    if (channel === 'scheduleClose') {
+      var currentDate = new Date(Date.now());
+      var date = new Date(currentDate.getTime() + message.minTillClose * 60000);
+
+      schedule.scheduleJob(date, function(){
+        app.locals.polls[message.pollId].status = "closed";
+        io.sockets.emit('pollClosed', message.pollId);
+      });
+
+      io.sockets.emit('closeScheduled', message.pollId);
     }
   });
 });
