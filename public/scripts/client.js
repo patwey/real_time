@@ -37,6 +37,17 @@ if (scheduleCloseBtn) {
   });
 }
 
+var submitCommentBtn = document.getElementById('submit-comment');
+
+if (submitCommentBtn) {
+  submitCommentBtn.addEventListener('click', function() {
+    var commentBox = document.getElementById('comment-box');
+    var comment = commentBox.value;
+    commentBox.value = '';
+    socket.send('addComment', { pollId: this.getAttribute('data-id'), comment: comment });
+  });
+}
+
 socket.on('voteCounted', function (poll) {
   var options = poll.options;
   for (var i = 0; i < options.length; i++) {
@@ -69,5 +80,18 @@ socket.on('closeScheduled', function (pollId) {
 
   if (scheduleCloseStatus) {
     scheduleCloseStatus.innerText = 'Schedule Set!';
+  }
+});
+
+socket.on('commentAdded', function (commentData) {
+  var commentsDiv = document.getElementById(commentData.pollId + '-comments');
+
+  if (commentsDiv) {
+    var pNode = document.createElement('p');
+    var emNode = document.createElement('em');
+    var commentText = document.createTextNode(commentData.comment);
+    emNode.appendChild(commentText);
+    pNode.appendChild(emNode)
+    commentsDiv.appendChild(pNode);
   }
 });

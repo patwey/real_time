@@ -24,6 +24,7 @@ if (app.get('port') === 3000) {
 
 app.locals.polls = {};
 app.locals.votes = {};
+app.locals.comments = {};
 
 app.get('/', (request, response) => {
   response.render('index');
@@ -35,6 +36,8 @@ app.get('/new', (request, response) => {
 
 app.post('/new', (request, response) => {
   poll = new Poll(sanitizePollData(request.body));
+  app.locals.comments[poll.id] = {};
+
 
   app.locals.polls[poll.id] = poll
 
@@ -102,6 +105,11 @@ io.on('connection', function(socket) {
       });
 
       io.sockets.emit('closeScheduled', message.pollId);
+    }
+
+    if (channel === 'addComment') {
+      app.locals.polls[message.pollId].comments[socket.id] = message.comment;
+      io.sockets.emit('commentAdded', message);
     }
   });
 });

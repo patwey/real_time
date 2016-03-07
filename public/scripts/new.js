@@ -1,4 +1,3 @@
-// Adding an option
 var addOptionBtn = document.getElementById('add-option');
 var optionsDiv = document.getElementById('options')
 

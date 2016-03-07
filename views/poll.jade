@@ -23,7 +23,6 @@ html(lang='en')
                     span= option
                     button.option-btn.btn.btn-success.btn-xs.pull-right(data-id=poll.id, data-vote=option) Vote
                   br
-      
       div.row
         div.col-md-6.col-md-offset-3
           ul(class='list-group ' + poll.resultsVisibility, id=poll.id + '-results')
@@ -38,7 +37,18 @@ html(lang='en')
                   span(id=option)= poll.voteCount[option]
                   span=' votes)'
               br
+              
+      div.col-md-6.col-md-offset-3(id=poll.id + '-comments')
+        h3 Comments:
+        each comment in poll.comments
+          p
+            em= comment
       
+      div.col-md-6.col-md-offset-3
+          label(for='comment-box') Add a Comment:
+          input.form-control(id='comment-box', type='text')
+          br
+          button.btn.btn-default(id='submit-comment', data-id=poll.id) Submit
   
     script(src='/socket.io/socket.io.js')
     script(src='/scripts/client.js')
